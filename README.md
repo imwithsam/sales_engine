@@ -1,7 +1,7 @@
 [![Stories in Ready](https://badge.waffle.io/Jpease1020/sales_engine.png?label=ready&title=Ready)](https://waffle.io/Jpease1020/sales_engine)
 # Sales Engine
 
-(insert project completion goals for first check-in here)
+1. Create tests for design of program
 
 (insert project completion goals for second check-in here)
 
