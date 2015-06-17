@@ -1,22 +1,9 @@
 require 'minitest/autorun'
 require 'minitest/pride'
-require './lib/merchant'
+require_relative '../lib/merchant'
+require_relative '../lib/merchant_parser'
 
 class MerchantTest < Minitest::Test
-
-  def test_it_has_id
-    merchant = Merchant.new
-
-    assert 1, merchant.id
-  end
-
-  def test_reads_file
-    merchant = Merchant.new
-    merchant.read_file
-
-    assert 1, 1
-  end
-
 end
 
 
