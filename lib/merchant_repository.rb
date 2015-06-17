@@ -1,16 +1,15 @@
-class MerchantRepository
+require_relative('repository')
 
-  attr_accessor :merchant_csv
-
-  def initialize(file_name)
-    self.merchant_csv = file_name
+class MerchantRepository < Repository
+  def parser
+    MerchantParser
   end
 
-  def all
-    parser = MerchantParser.new(self)
-    parser.parse(merchant_csv)
+  def find_by_name(name)
+    all.detect { |record| record.name == name }
   end
 
+  def find_all_by_name(name)
+    all.select { |record| record.name == name }
+  end
 end
-
-
