@@ -1,9 +1,9 @@
 class Repository
-  attr_accessor :engine,
-                :all
+  attr_accessor :all,
+                :engine
 
-  def initialize(records, engine)
-    self.all          = records.map { |record| self.record_type.new(record.to_hash, self) }
+  def initialize(all_records, engine)
+    self.all          = all_records.map { |record| self.record_type.new(record.to_hash, self) }
     self.engine       = engine
   end
 

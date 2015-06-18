@@ -17,9 +17,9 @@ class SalesEngine
   def startup
     merchant_records = CsvReader.read("#{@data_directory}/merchants.csv")
     self.merchant_repository = MerchantRepository.new(merchant_records, self)
-    require 'pry'; binding.pry
+    # require 'pry'; binding.pry
   end
 end
 
-engine = SalesEngine.new
-engine.startup
+# engine = SalesEngine.new
+# engine.startup

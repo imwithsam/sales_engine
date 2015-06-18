@@ -1,6 +1,6 @@
 class Merchant
-  attr_accessor :repository,
-                :attributes
+  attr_accessor :attributes,
+                :repository
 
   def initialize(attributes, repository)
     self.attributes = attributes
@@ -8,7 +8,7 @@ class Merchant
   end
 
   def id
-    attributes[:id]
+    attributes[:id].to_i
   end
 
   def name
@@ -23,4 +23,3 @@ class Merchant
     attributes[:updated_at]
   end
 end
-

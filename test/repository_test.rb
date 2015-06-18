@@ -4,89 +4,102 @@ require_relative '../lib/merchant_repository'
 
 class RepositoryTest < Minitest::Test
   def test_returns_all_merchants
-    merch_repo = MerchantRepository.new('./data/test_data/merchants_test.csv')
-    result = merch_repo.all
-    assert_equal 3, result.count
-    assert_equal 1, result[0].id
-    assert_equal "Schroeder-Jerde", result[0].name
-    assert_equal "2012-03-27 14:53:59 UTC", result[0].created_at
-    assert_equal "2012-04-29 12:22:12 UTC", result[0].updated_at
-    assert_equal 2, result[1].id
-    assert_equal "Klein, Rempel and Jones", result[1].name
-    assert_equal "2014-02-04 10:21:16 UTC", result[1].created_at
-    assert_equal "2014-02-05 18:01:32 UTC", result[1].updated_at
-    assert_equal 3, result[2].id
-    assert_equal "Willms and Sons", result[2].name
-    assert_equal "2014-02-04 10:21:16 UTC", result[2].created_at
-    assert_equal "2014-02-05 18:01:32 UTC", result[2].updated_at
+    sales_engine = SalesEngine.new
+    merch_repo = MerchantRepository.new(
+      [{ id: 1 }, { id: 2 }, { id: 3 }],
+      sales_engine)
+    merchants = merch_repo.all
+
+    assert_equal [1, 2, 3], merchants.map { |merchant| merchant.id }
   end
 
   def test_returns_random_merchant
-    merch_repo = MerchantRepository.new('./data/test_data/merchants_test.csv')
-    assertion = false
+    sales_engine = SalesEngine.new
+    merch_repo = MerchantRepository.new(
+      [{ id: 1 }, { id: 2 }, { id: 3 }],
+      sales_engine)
+    random_match = false
 
     10.times do
-      if merch_repo.random.id == 1
-        assertion = true
-      end
+      random_match = true if merch_repo.random.id == 2
     end
 
-    assert assertion, "Random ID did not match in 10 tries."
+    assert random_match, "Random ID did not match in 10 tries."
   end
 
   def test_find_merchant_by_id
     merchant_id = 2
-    merch_repo = MerchantRepository.new('./data/test_data/merchants_test.csv')
-    result = merch_repo.find_by_id(merchant_id)
+    sales_engine = SalesEngine.new
+    merch_repo = MerchantRepository.new(
+      [{ id: 1 }, { id: 2 }, { id: 3 }],
+      sales_engine)
+    merchant = merch_repo.find_by_id(merchant_id)
 
-    assert_equal 2, result.id
-    assert_equal "Klein, Rempel and Jones", result.name
-    assert_equal "2014-02-04 10:21:16 UTC", result.created_at
-    assert_equal "2014-02-05 18:01:32 UTC", result.updated_at
+    assert_equal 2, merchant.id
   end
 
   def test_find_merchant_by_created_at
-    merchant_created_at = "2012-03-27 14:53:59 UTC"
-    merch_repo = MerchantRepository.new('./data/test_data/merchants_test.csv')
-    result = merch_repo.find_by_created_at(merchant_created_at)
+    merchant_created_at = "2014-02-04 10:21:16 UTC"
+    sales_engine = SalesEngine.new
+    merch_repo = MerchantRepository.new([
+      { id: 1, created_at: "2014-07-14 11:01:15 UTC" },
+      { id: 2, created_at: "2014-02-04 10:21:16 UTC" },
+      { id: 3, created_at: "2015-06-18 11:20:44 UTC" }],
+      sales_engine)
+    merchant = merch_repo.find_by_created_at(merchant_created_at)
 
-    assert_equal merchant_created_at, result.created_at
+    assert_equal 2, merchant.id
   end
 
   def test_find_merchant_by_updated_at
-    merchant_updated_at = "2012-04-29 12:22:12 UTC"
-    merch_repo = MerchantRepository.new('./data/test_data/merchants_test.csv')
-    result = merch_repo.find_by_updated_at(merchant_updated_at)
+    merchant_updated_at = "2014-02-05 18:01:32 UTC"
+    sales_engine = SalesEngine.new
+    merch_repo = MerchantRepository.new([
+      { id: 1, updated_at: "2014-09-12 04:45:00 UTC" },
+      { id: 2, updated_at: "2014-02-05 18:01:32 UTC" },
+      { id: 3, updated_at: "2015-06-18 10:11:11 UTC" }],
+      sales_engine)
+    merchant = merch_repo.find_by_updated_at(merchant_updated_at)
 
-    assert_equal merchant_updated_at, result.updated_at
+    assert_equal 2, merchant.id
   end
 
   def test_find_all_merchants_by_id
     merchant_id = 2
-    merch_repo = MerchantRepository.new('./data/test_data/merchants_test.csv')
-    result = merch_repo.find_all_by_id(merchant_id)
+    sales_engine = SalesEngine.new
+    merch_repo = MerchantRepository.new(
+        [{ id: 1 }, { id: 2 }, { id: 2 }, { id: 3 }],
+        sales_engine)
+    merchants = merch_repo.find_all_by_id(merchant_id)
 
-    assert_equal merchant_id, result[0].id
-    assert_equal "Klein, Rempel and Jones", result[0].name
-    assert_equal "2014-02-04 10:21:16 UTC", result[0].created_at
-    assert_equal "2014-02-05 18:01:32 UTC", result[0].updated_at
+    assert_equal [2, 2], merchants.map { |merchant| merchant.id }
   end
 
   def test_find_all_merchants_by_created_at
     merchant_created_at = "2014-02-04 10:21:16 UTC"
-    merch_repo = MerchantRepository.new('./data/test_data/merchants_test.csv')
-    result = merch_repo.find_all_by_created_at(merchant_created_at)
+    sales_engine = SalesEngine.new
+    merch_repo = MerchantRepository.new([
+      { id: 1, created_at: "2014-07-14 11:01:15 UTC" },
+      { id: 2, created_at: "2014-02-04 10:21:16 UTC" },
+      { id: 3, created_at: "2015-06-18 11:20:44 UTC" },
+      { id: 4, created_at: "2014-02-04 10:21:16 UTC" }],
+      sales_engine)
+    merchants = merch_repo.find_all_by_created_at(merchant_created_at)
 
-    assert_equal merchant_created_at, result[0].created_at
-    assert_equal merchant_created_at, result[1].created_at
+    assert_equal [2, 4], merchants.map { |merchant| merchant.id }
   end
 
   def test_find_all_merchants_by_updated_at
     merchant_updated_at = "2014-02-05 18:01:32 UTC"
-    merch_repo = MerchantRepository.new('./data/test_data/merchants_test.csv')
-    result = merch_repo.find_all_by_updated_at(merchant_updated_at)
+    sales_engine = SalesEngine.new
+    merch_repo = MerchantRepository.new([
+      { id: 1, updated_at: "2014-09-12 04:45:00 UTC" },
+      { id: 2, updated_at: "2014-02-05 18:01:32 UTC" },
+      { id: 3, updated_at: "2015-06-18 10:11:11 UTC" },
+      { id: 4, updated_at: "2014-02-05 18:01:32 UTC" }],
+      sales_engine)
+    merchants = merch_repo.find_all_by_updated_at(merchant_updated_at)
 
-    assert_equal merchant_updated_at, result[0].updated_at
-    assert_equal merchant_updated_at, result[1].updated_at
+    assert_equal [2, 4], merchants.map { |merchant| merchant.id }
   end
 end
