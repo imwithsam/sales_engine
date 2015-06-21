@@ -8,5 +8,27 @@ class Invoice < Record
   def merchant_id
     attributes[:merchant_id]
   end
+
+  def transactions
+    self.repository.engine.transaction_repository.find_all_by_invoice_id(self.id)
+  end
+
+  def invoice_items
+    self.repository.engine.invoice_item_repository.find_all_by_invoice_id(self.id)
+  end
+
+  def items
+    self.invoice_items.map do |invoice_item|
+      self.repository.engine.item_repository.find_by_id(invoice_item.item_id)
+    end
+  end
+
+  def customer
+    self.repository.engine.customer_repository.find_by_id(self.customer_id)
+  end
+
+  def merchant
+    self.repository.engine.merchant_repository.find_by_id(self.merchant_id)
+  end
 end
 

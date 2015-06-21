@@ -39,10 +39,10 @@ class RepositoryTest < Minitest::Test
         sales_engine)
       random_match = false
 
-      10.times do
+      20.times do
         random_match = true if repo.random.id == 2
       end
-      assert random_match, "Random ID did not match in 10 tries. Run test one more time."
+      assert random_match, "Random ID did not match in 20 tries."
     end
   end
 

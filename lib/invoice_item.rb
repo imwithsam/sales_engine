@@ -16,5 +16,13 @@ class InvoiceItem < Record
   def unit_price
     attributes[:unit_price]
   end
+
+  def invoice
+    self.repository.engine.invoice_repository.find_by_id(self.invoice_id)
+  end
+
+  def item
+    self.repository.engine.item_repository.find_by_id(self.item_id)
+  end
 end
 
