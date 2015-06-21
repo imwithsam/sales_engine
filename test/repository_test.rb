@@ -8,7 +8,8 @@ class RepositoryTest < Minitest::Test
     [MerchantRepository,
      InvoiceRepository,
      ItemRepository,
-     TransactionRepository]
+     TransactionRepository,
+     CustomerRepository]
   end
 
   def test_returns_all_records

@@ -17,3 +17,4 @@ class Transaction < Record
     attributes[:result]
   end
 end
+
