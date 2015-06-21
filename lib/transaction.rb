@@ -16,5 +16,9 @@ class Transaction < Record
   def result
     attributes[:result]
   end
+
+  def invoice
+    self.repository.engine.invoice_repository.find_by_id(self.invoice_id)
+  end
 end
 
