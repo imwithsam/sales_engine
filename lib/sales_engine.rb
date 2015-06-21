@@ -9,6 +9,7 @@ require_relative 'merchant_repository'
 require_relative 'invoice_repository'
 require_relative 'item_repository'
 require_relative 'transaction_repository'
+require_relative 'customer'
 
 class SalesEngine
   attr_accessor :merchant_repository,
@@ -34,6 +35,9 @@ class SalesEngine
 
     transaction_records = CsvReader.read("#{@data_directory}/transactions.csv")
     self.transaction_repository = TransactionRepository.new(transaction_records, self)
+
+    customer_records = CsvReader.read("#{@data_directory}/customers.csv")
+    self.customer_repository = CustomerRepository.new(customer_records, self)
     # require 'pry'; binding.pry
   end
 end
