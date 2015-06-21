@@ -6,7 +6,9 @@ require_relative '../lib/invoice_repository'
 class RepositoryTest < Minitest::Test
   def repositories
     [MerchantRepository,
-     InvoiceRepository]
+     InvoiceRepository,
+     ItemRepository,
+     TransactionRepository]
   end
 
   def test_returns_all_records
@@ -34,8 +36,7 @@ class RepositoryTest < Minitest::Test
       10.times do
         random_match = true if repo.random.id == 2
       end
-
-      assert random_match, "Random ID did not match in 10 tries. Try one more time."
+      assert random_match, "Random ID did not match in 10 tries. Run test one more time."
     end
   end
 

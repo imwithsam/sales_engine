@@ -38,3 +38,4 @@ class ItemRepository < Repository
     all.select { |record| record.merchant_id == merchant_id }
   end
 end
+
