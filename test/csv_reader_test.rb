@@ -13,7 +13,7 @@ class CsvReaderTest < Minitest::Test
     assert_equal [], CsvReader.read('./data/test_data/empty_file.csv').map { |row| row.to_hash }
   end
 
-  def test_if_header_only_no_content
+  def test_if_header_only_no_content_returns_empty_array
     assert_equal [], CsvReader.read('./data/test_data/header_no_data_test.csv').map { |row| row.to_hash }
   end
 
