@@ -2,6 +2,10 @@ require 'minitest/autorun'
 require 'minitest/pride'
 require_relative '../lib/repository'
 require_relative '../lib/invoice_repository'
+require_relative '../lib/item_repository'
+require_relative '../lib/transaction_repository'
+require_relative '../lib/customer_repository'
+require_relative '../lib/invoice_item_repository'
 
 class RepositoryTest < Minitest::Test
   def repositories
@@ -9,7 +13,8 @@ class RepositoryTest < Minitest::Test
      InvoiceRepository,
      ItemRepository,
      TransactionRepository,
-     CustomerRepository]
+     CustomerRepository,
+     InvoiceItemRepository]
   end
 
   def test_returns_all_records
