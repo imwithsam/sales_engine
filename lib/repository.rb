@@ -1,13 +1,10 @@
 class Repository
-  attr_accessor :file_name
+  attr_accessor :all,
+                :engine
 
-  def initialize(file_name)
-    self.file_name = file_name
-  end
-
-  def all
-    parser = self.parser.new(self)
-    parser.parse(self.file_name)
+  def initialize(all_records, engine)
+    self.all          = all_records.map { |record| self.record_type.new(record.to_hash, self) }
+    self.engine       = engine
   end
 
   def random
