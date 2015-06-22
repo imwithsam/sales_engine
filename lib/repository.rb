@@ -7,6 +7,10 @@ class Repository
     self.engine       = engine
   end
 
+  def inspect
+    "#<#{self.class} #{self.record_type.size} rows>"
+  end
+
   def random
     all.sample
   end

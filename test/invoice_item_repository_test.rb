@@ -1,5 +1,6 @@
 require 'minitest/autorun'
 require 'minitest/pride'
+require 'bigdecimal'
 require_relative '../lib/sales_engine'
 require_relative '../lib/invoice_item_repository'
 
@@ -43,11 +44,11 @@ class InvoiceItemRepositoryTest < Minitest::Test
   def test_find_by_unit_price
     sales_engine = SalesEngine.new
     invoice_item_repo = InvoiceItemRepository.new(
-        [{ id: 10, unit_price: 20095 },
-         { id: 20, unit_price: 7550 },
-         { id: 30, unit_price: 5995 }],
+        [{ id: 10, unit_price: "20095" },
+         { id: 20, unit_price: "7550" },
+         { id: 30, unit_price: "5995" }],
         sales_engine)
-    invoice_item = invoice_item_repo.find_by_unit_price(7550)
+    invoice_item = invoice_item_repo.find_by_unit_price(BigDecimal.new("7550") / 100)
 
     assert_equal 20, invoice_item.id
   end
@@ -94,12 +95,12 @@ class InvoiceItemRepositoryTest < Minitest::Test
   def test_find_by_unit_price
     sales_engine = SalesEngine.new
     invoice_item_repo = InvoiceItemRepository.new(
-        [{ id: 10, unit_price: 20095 },
-         { id: 20, unit_price: 7550 },
-         { id: 30, unit_price: 5995 },
-         { id: 40, unit_price: 7550 }],
+        [{ id: 10, unit_price: "20095" },
+         { id: 20, unit_price: "7550" },
+         { id: 30, unit_price: "5995" },
+         { id: 40, unit_price: "7550" }],
         sales_engine)
-    invoice_items = invoice_item_repo.find_all_by_unit_price(7550)
+    invoice_items = invoice_item_repo.find_all_by_unit_price(BigDecimal.new("7550") / 100)
 
     assert_equal [20, 40], invoice_items.map { |invoice_item| invoice_item.id }
   end

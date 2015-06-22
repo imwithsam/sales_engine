@@ -2,7 +2,7 @@ require_relative 'record'
 
 class Transaction < Record
   def invoice_id
-    attributes[:invoice_id]
+    attributes[:invoice_id].to_i
   end
 
   def credit_card_number

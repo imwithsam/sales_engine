@@ -1,5 +1,6 @@
 require 'minitest/autorun'
 require 'minitest/pride'
+require 'bigdecimal'
 require_relative '../lib/sales_engine'
 require_relative '../lib/item_repository'
 
@@ -35,7 +36,7 @@ class ItemRepositoryTest < Minitest::Test
        { id: 20, unit_price: "47162" },
        { id: 30, unit_price: "9812" }],
       sales_engine)
-    item = item_repo.find_by_unit_price("47162")
+    item = item_repo.find_by_unit_price(BigDecimal.new("47162") / 100)
 
     assert_equal 20, item.id
   end
@@ -86,7 +87,7 @@ class ItemRepositoryTest < Minitest::Test
        { id: 30, unit_price: "9812" },
        { id: 40, unit_price: "47162" }],
       sales_engine)
-    items = item_repo.find_all_by_unit_price("47162")
+    items = item_repo.find_all_by_unit_price(BigDecimal.new("47162") / 100)
 
     assert_equal [20, 40], items.map { |item| item.id }
   end
