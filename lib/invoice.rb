@@ -2,11 +2,11 @@ require_relative 'record'
 
 class Invoice < Record
   def customer_id
-    attributes[:customer_id]
+    attributes[:customer_id].to_i
   end
 
   def merchant_id
-    attributes[:merchant_id]
+    attributes[:merchant_id].to_i
   end
 
   def transactions

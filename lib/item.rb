@@ -1,3 +1,4 @@
+require 'bigdecimal'
 require_relative 'record'
 
 class Item < Record
@@ -10,11 +11,11 @@ class Item < Record
   end
 
   def unit_price
-    attributes[:unit_price]
+    BigDecimal.new(attributes[:unit_price]) / 100
   end
 
   def merchant_id
-    attributes[:merchant_id]
+    attributes[:merchant_id].to_i
   end
 
   def invoice_items
