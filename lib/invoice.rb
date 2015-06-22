@@ -9,6 +9,10 @@ class Invoice < Record
     attributes[:merchant_id].to_i
   end
 
+  def status
+    attributes[:status]
+  end
+
   def transactions
     self.repository.engine.transaction_repository.find_all_by_invoice_id(self.id)
   end

@@ -44,7 +44,7 @@ class SalesEngine
     self.customer_repository = CustomerRepository.new(customer_records, self)
 
     invoice_item_records = CsvReader.read("#{data_directory}/invoice_items.csv")
-    self.invoice_item_repository = CustomerRepository.new(invoice_item_records, self)
+    self.invoice_item_repository = InvoiceItemRepository.new(invoice_item_records, self)
   end
 end
 
