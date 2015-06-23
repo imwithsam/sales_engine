@@ -19,11 +19,11 @@ class InvoiceItem < Record
   end
 
   def invoice
-    self.repository.engine.invoice_repository.find_by_id(self.invoice_id)
+    repository.engine.invoice_repository.find_by_id(invoice_id)
   end
 
   def item
-    self.repository.engine.item_repository.find_by_id(self.item_id)
+    repository.engine.item_repository.find_by_id(item_id)
   end
 end
 
