@@ -35,8 +35,14 @@ class Invoice < Record
     repository.engine.merchant_repository.find_by_id(merchant_id)
   end
 
-  def successful_transaction?
-    transactions.any? { |transaction| transaction.result == "success" }
+  def paid?
+    transactions.any? { |transaction| transaction.successful? }
+  end
+
+  def grand_total
+    invoice_items.reduce(0) do |subtotal, item|
+      subtotal + (item.quantity * item.unit_price)
+    end
   end
 end
 
