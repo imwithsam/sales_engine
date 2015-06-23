@@ -34,5 +34,9 @@ class Invoice < Record
   def merchant
     self.repository.engine.merchant_repository.find_by_id(self.merchant_id)
   end
+
+  def successful_transaction?
+    transactions.any? { |transaction| transaction.result == "success" }
+  end
 end
 

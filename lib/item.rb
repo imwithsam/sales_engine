@@ -19,10 +19,10 @@ class Item < Record
   end
 
   def invoice_items
-    self.repository.engine.invoice_item_repository.find_all_by_item_id(self.id)
+    repository.engine.invoice_item_repository.find_all_by_item_id(id)
   end
 
   def merchant
-    self.repository.engine.merchant_repository.find_by_id(self.merchant_id)
+    repository.engine.merchant_repository.find_by_id(merchant_id)
   end
 end

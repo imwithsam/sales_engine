@@ -89,4 +89,13 @@ class InvoiceTest < MiniTest::Test
 
     assert_equal 20, invoice.merchant.id
   end
+
+  def test_successful_transaction
+    skip
+    # TODO: Finish test_successful_transaction
+    # sales_engine = SalesEngine.new
+    # invoice_repo = InvoiceRepository.new(
+    #     [{ id: 1, merchant_id: 10 }],
+    #     sales_engine)
+  end
 end
