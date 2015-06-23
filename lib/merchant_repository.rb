@@ -13,4 +13,8 @@ class MerchantRepository < Repository
   def find_all_by_name(name)
     all.select { |record| record.name == name }
   end
+
+  def most_revenue(number_of_merchants)
+    all.sort_by { |merchant| merchant.revenue }.reverse.take(number_of_merchants)
+  end
 end
