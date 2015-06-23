@@ -16,19 +16,11 @@ class Merchant < Record
 
   def revenue
     paid_invoices = invoices.select do |invoice|
-      invoice.successful_transaction?
+      invoice.paid?
     end
 
     paid_invoices.reduce(0) do |total, invoice|
-      total + revenue_for_invoice(invoice)
-    end
-  end
-
-  private
-
-  def revenue_for_invoice(invoice)
-    invoice.invoice_items.reduce(0) do |subtotal, item|
-      subtotal + (item.quantity * item.unit_price)
+      total + invoice.grand_total
     end
   end
 end

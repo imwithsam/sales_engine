@@ -6,7 +6,7 @@
 - [ ] Remove fixture tests and files
 - [ ] Make sure all repositories are added to repository_test
 - [ ] Make sure each public method has a unit test
-- [ ] Remove self from all reader methods
+- [X] Remove self from all reader methods
 - [ ] Implement memoization
 
 # Sales Engine
