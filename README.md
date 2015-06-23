@@ -1,4 +1,14 @@
 [![Stories in Ready](https://badge.waffle.io/Jpease1020/sales_engine.png?label=ready&title=Ready)](https://waffle.io/Jpease1020/sales_engine)
+# TODOs
+- [ ] Remove commented out code.
+- [ ] Remove MerchantParser and MerchantParserTest
+- [ ] Remove test/bad_csv_file_test.csv
+- [ ] Remove fixture tests and files
+- [ ] Make sure all repositories are added to repository_test
+- [ ] Make sure each public method has a unit test
+- [ ] Remove self from all reader methods
+- [ ] Implement memoization
+
 # Sales Engine
 
 1. Create tests for design of program

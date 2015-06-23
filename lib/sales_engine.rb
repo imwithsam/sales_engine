@@ -1,9 +1,3 @@
-# TODO: Remove commented out code.
-# TODO: Remove MerchantParser and MerchantParserTest
-# TODO: Remove test/bad_csv_file_test.csv
-# TODO: Remove fixture tests
-# TODO: Make sure all repositories are added to repository_test
-
 require_relative 'csv_reader'
 require_relative 'merchant_repository'
 require_relative 'invoice_repository'

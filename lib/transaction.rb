@@ -18,7 +18,7 @@ class Transaction < Record
   end
 
   def invoice
-    self.repository.engine.invoice_repository.find_by_id(self.invoice_id)
+    repository.engine.invoice_repository.find_by_id(invoice_id)
   end
 end
 
