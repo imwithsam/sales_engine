@@ -54,8 +54,8 @@ class ItemTest < MiniTest::Test
     sales_engine.transaction_repository = TransactionRepository.new(
         [{ id: 1000, invoice_id: 10, result: "success" },
          { id: 2000, invoice_id: 20, result: "success" },
-         { id: 1000, invoice_id: 30, result: "success" },
-         { id: 2000, invoice_id: 40, result: "failed" }],
+         { id: 3000, invoice_id: 30, result: "success" },
+         { id: 4000, invoice_id: 40, result: "failed" }],
         sales_engine)
     item = item_repo.find_by_id(1)
 
