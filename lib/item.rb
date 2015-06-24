@@ -25,4 +25,24 @@ class Item < Record
   def merchant
     repository.engine.merchant_repository.find_by_id(merchant_id)
   end
+
+  def revenue
+    invoice_items.reduce(0) do |sum, invoice_item|
+      if invoice_item.invoice.paid?
+        sum + (invoice_item.quantity * invoice_item.unit_price)
+      else
+        sum
+      end
+    end
+  end
+
+  def quantity
+    invoice_items.reduce(0) do |sum, invoice_item|
+      if invoice_item.invoice.paid?
+        sum + invoice_item.quantity
+      else
+        sum
+      end
+    end
+  end
 end
