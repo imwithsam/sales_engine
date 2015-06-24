@@ -61,7 +61,7 @@ class RepositoryTest < Minitest::Test
   end
 
   def test_find_record_by_created_at
-    record_created_at = "2014-02-04 10:21:16 UTC"
+    record_created_at = Date.parse("2014-02-04 10:21:16 UTC")
     sales_engine = SalesEngine.new
 
     self.repositories.each do |repository|
@@ -77,7 +77,7 @@ class RepositoryTest < Minitest::Test
   end
 
   def test_find_record_by_updated_at
-    record_updated_at = "2014-02-05 18:01:32 UTC"
+    record_updated_at = Date.parse("2014-02-05 18:01:32 UTC",)
     sales_engine = SalesEngine.new
 
     self.repositories.each do |repository|
@@ -107,7 +107,7 @@ class RepositoryTest < Minitest::Test
   end
 
   def test_find_all_records_by_created_at
-    record_created_at = "2014-02-04 10:21:16 UTC"
+    record_created_at = Date.parse("2014-02-04 10:21:16 UTC")
     sales_engine = SalesEngine.new
 
     self.repositories.each do |repository|
@@ -124,7 +124,7 @@ class RepositoryTest < Minitest::Test
   end
 
   def test_find_all_records_by_updated_at
-    record_updated_at = "2014-02-05 18:01:32 UTC"
+    record_updated_at = Date.parse("2014-02-05 18:01:32 UTC")
     sales_engine = SalesEngine.new
 
     self.repositories.each do |repository|
