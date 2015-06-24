@@ -22,4 +22,8 @@ class MerchantRepository < Repository
     # returns the top x merchant instances ranked by total number of items sold
     all.sort_by(&:total_items_sold).reverse.take(number_of_merchants)
   end
+
+  def revenue(date)
+    all.reduce(0) { |sum, merchant| sum + merchant.revenue(date) }
+  end
 end

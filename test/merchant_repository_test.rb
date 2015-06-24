@@ -157,12 +157,47 @@ class MerchantRepositoryTest < Minitest::Test
          { id:  700, invoice_id: 10000, item_id: 80, quantity: 2 }],
         sales_engine)
 
-    # TODO: Add InvoiceRepository and TransactionRepository
     # 1: 2 + 2 + 2 = 6
     # 2: 2
     # 3: 3 + 1 + 3 = 7
-    # 1: 2 + 4 + 1 + 1 = 8, 2: 2 + 2 = 4, 3: 1 + 3 + 2 = 6
     assert_equal [3, 1], merchant_repo.most_items(2).map { |merchant| merchant.id }
+  end
+
+  def test_total_revenue_by_date
+    sales_engine = SalesEngine.new
+    sales_engine.invoice_repository = InvoiceRepository.new(
+        [{ id: 10, merchant_id: 1, created_at: "2012-03-25 09:54:09 UTC" },
+         { id: 20, merchant_id: 2, created_at: "2012-03-25 09:54:09 UTC" },
+         { id: 30, merchant_id: 2, created_at: "2012-03-25 09:54:09 UTC" },
+         { id: 40, merchant_id: 3, created_at: "2012-03-24 09:54:09 UTC" }],
+        sales_engine)
+    sales_engine.transaction_repository = TransactionRepository.new(
+        [{ id:  100, invoice_id:  10, result: "failed" },
+         { id:  200, invoice_id:  10, result: "success" },
+         { id:  300, invoice_id:  20, result: "failed" },
+         { id:  400, invoice_id:  20, result: "failed" },
+         { id:  500, invoice_id:  30, result: "success" },
+         { id:  600, invoice_id:  40, result: "success" }],
+        sales_engine)
+    sales_engine.invoice_item_repository = InvoiceItemRepository.new(
+        [{ id:  1000, invoice_id:  10, quantity: 2, unit_price: "100" },
+         { id:  2000, invoice_id:  10, quantity: 3, unit_price: "125" },
+         { id:  3000, invoice_id:  20, quantity: 1, unit_price: "200" },
+         { id:  4000, invoice_id:  30, quantity: 2, unit_price: "140" },
+         { id:  5000, invoice_id:  30, quantity: 3, unit_price: "95" },
+         { id:  6000, invoice_id:  40, quantity: 1, unit_price: "130" }],
+        sales_engine)
+    merchant_repo = MerchantRepository.new(
+        [{ id: 1 },
+         { id: 2 },
+         { id: 3}],
+        sales_engine)
+
+    date = Date.parse("2012-03-25")
+
+    # 20 & 40 out.
+    # 2 * 100 + 3 * 125 + 2 * 140 + 3 * 95 = 1140
+    assert_equal (BigDecimal.new("1140") / 100), merchant_repo.revenue(date)
   end
 end
 
