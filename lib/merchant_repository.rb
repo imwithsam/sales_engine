@@ -15,6 +15,11 @@ class MerchantRepository < Repository
   end
 
   def most_revenue(number_of_merchants)
-    all.sort_by { |merchant| merchant.revenue }.reverse.take(number_of_merchants)
+    all.sort_by(&:revenue).reverse.take(number_of_merchants)
+  end
+
+  def most_items(number_of_merchants)
+    # returns the top x merchant instances ranked by total number of items sold
+    all.sort_by(&:total_items_sold).reverse.take(number_of_merchants)
   end
 end

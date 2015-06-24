@@ -39,6 +39,21 @@ class Merchant < Record
     end
   end
 
+  def total_items_sold
+    # invoice_item only counts if invoice is paid
+    item_sums = items.map do |item|
+      item.invoice_items.reduce(0) do |sum, i|
+        if repository.engine.invoice_repository.find_by_id(i.invoice_id).paid?
+          sum + i.quantity
+        else
+          sum
+        end
+      end
+    end
+
+    item_sums.reduce(:+)
+  end
+
   def favorite_customer
     grouped_invoices = paid_invoices.group_by(&:customer_id)
     favorite_customer_id = grouped_invoices.sort_by { |k, v| v.count }.last[0]
