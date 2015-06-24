@@ -1,3 +1,5 @@
+require 'date'
+
 class Record
   attr_accessor :attributes,
                 :repository
@@ -16,10 +18,10 @@ class Record
   end
 
   def created_at
-    attributes[:created_at]
+    Date.parse(attributes[:created_at])
   end
 
   def updated_at
-    attributes[:updated_at]
+    Date.parse(attributes[:updated_at])
   end
 end
