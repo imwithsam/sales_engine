@@ -93,5 +93,34 @@ class MerchantTest < MiniTest::Test
   def test_returns_total_revenue_for_all_transactions_if_invalid_date
     skip
   end
+
+  def test_returns_favorite_customer
+    sales_engine = SalesEngine.new
+    sales_engine.invoice_repository = InvoiceRepository.new(
+        [{ id: 10, merchant_id: 1, customer_id: 1000 },
+         { id: 20, merchant_id: 1, customer_id: 2000 },
+         { id: 30, merchant_id: 1, customer_id: 2000 },
+         { id: 40, merchant_id: 1, customer_id: 3000 },
+         { id: 50, merchant_id: 1, customer_id: 3000 },
+         { id: 60, merchant_id: 1, customer_id: 3000 }],
+        sales_engine)
+    sales_engine.transaction_repository = TransactionRepository.new(
+        [{ id:  100, invoice_id:  10, result: "success" },
+         { id:  200, invoice_id:  20, result: "success" },
+         { id:  300, invoice_id:  30, result: "success" },
+         { id:  400, invoice_id:  40, result: "failed" },
+         { id:  500, invoice_id:  50, result: "failed" },
+         { id:  600, invoice_id:  60, result: "success" }],
+        sales_engine)
+    sales_engine.customer_repository = CustomerRepository.new(
+        [{ id:  1000 },
+         { id:  2000 },
+         { id:  3000 }],
+        sales_engine)
+    merchant_repo = MerchantRepository.new([{ id: 1 }], sales_engine)
+    merchant = merchant_repo.find_by_id(1)
+
+    assert_equal 2000, merchant.favorite_customer.id
+  end
 end
 
