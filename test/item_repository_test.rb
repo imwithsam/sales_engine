@@ -136,5 +136,37 @@ class ItemRepositoryTest < Minitest::Test
     # 3: 4 * 110 = 440
     assert_equal [2, 3], item_repo.most_revenue(2).map(&:id)
   end
+
+  def test_most_items
+    sales_engine = SalesEngine.new
+    item_repo = ItemRepository.new(
+        [{ id: 1 },
+         { id: 2 },
+         { id: 3 }],
+        sales_engine)
+    sales_engine.invoice_repository = InvoiceRepository.new(
+        [{ id: 1000 },
+         { id: 2000 },
+         { id: 3000 },
+         { id: 4000 }],
+        sales_engine)
+    sales_engine.invoice_item_repository = InvoiceItemRepository.new(
+        [{ id: 10, item_id: 1, invoice_id: 1000, quantity: 2 },
+         { id: 20, item_id: 2, invoice_id: 2000, quantity: 3 },
+         { id: 30, item_id: 2, invoice_id: 3000, quantity: 1 },
+         { id: 40, item_id: 3, invoice_id: 4000, quantity: 4 }],
+        sales_engine)
+    sales_engine.transaction_repository = TransactionRepository.new(
+        [{ id: 100, invoice_id: 1000, result: "success" },
+         { id: 200, invoice_id: 2000, result: "success" },
+         { id: 300, invoice_id: 3000, result: "failed" },
+         { id: 400, invoice_id: 4000, result: "success" }],
+        sales_engine)
+
+    # 1: 2
+    # 2: 3
+    # 3: 4
+    assert_equal [3, 2], item_repo.most_items(2).map(&:id)
+  end
 end
 

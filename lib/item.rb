@@ -35,4 +35,14 @@ class Item < Record
       end
     end
   end
+
+  def quantity
+    invoice_items.reduce(0) do |sum, invoice_item|
+      if invoice_item.invoice.paid?
+        sum + invoice_item.quantity
+      else
+        sum
+      end
+    end
+  end
 end
