@@ -22,6 +22,10 @@ class Item < Record
     repository.engine.invoice_item_repository.find_all_by_item_id(id)
   end
 
+  def paid_invoice_items
+    invoice_items.select { |invoice_item| invoice_item.invoice.paid? }
+  end
+
   def merchant
     repository.engine.merchant_repository.find_by_id(merchant_id)
   end
@@ -44,5 +48,19 @@ class Item < Record
         sum
       end
     end
+  end
+
+  def best_day
+    invoice_items_by_date = paid_invoice_items.group_by do |invoice_item|
+      invoice_item.invoice.created_at
+    end
+
+    best_day = invoice_items_by_date.max_by do |date, invoice_items|
+      invoice_items.reduce(0) do |sum, invoice_item|
+        sum + invoice_item.revenue
+      end
+    end
+
+    best_day[0]
   end
 end

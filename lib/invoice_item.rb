@@ -18,6 +18,10 @@ class InvoiceItem < Record
     BigDecimal.new(attributes[:unit_price]) / 100
   end
 
+  def revenue
+    quantity * unit_price
+  end
+
   def invoice
     repository.engine.invoice_repository.find_by_id(invoice_id)
   end
