@@ -19,6 +19,10 @@ class Merchant < Record
     invoices.select(&:paid?)
   end
 
+  def unpaid_invoices
+    invoices.reject(&:paid?)
+  end
+
   def revenue(date = nil)
     if date.is_a?(Date)
       paid_invoices.reduce(0) do |total, invoice|
@@ -41,5 +45,12 @@ class Merchant < Record
     repository.engine.customer_repository.find_by_id(favorite_customer_id)
   end
 
+  def customers_with_pending_invoices
+    customers = unpaid_invoices.map do |invoice|
+      repository.engine.customer_repository.find_by_id(invoice.customer_id)
+    end
+
+    customers.uniq
+  end
 end
 
