@@ -1,10 +1,14 @@
+require 'date'
+
 class Repository
   attr_accessor :all,
                 :engine
 
   def initialize(all_records, engine)
-    self.all          = all_records.map { |record| self.record_type.new(record.to_hash, self) }
-    self.engine       = engine
+    self.all = all_records.map do |record|
+      record_type.new(record.to_hash, self)
+    end
+    self.engine = engine
   end
 
   def inspect
@@ -37,5 +41,13 @@ class Repository
 
   def find_all_by_updated_at(date)
     all.select { |record| record.updated_at == date }
+  end
+
+  def format_date_time(date_time)
+    date_time.strftime("%Y-%m-%d %H:%M:%S UTC")
+  end
+
+  def next_unused_id
+    all.max_by(&:id).id + 1
   end
 end

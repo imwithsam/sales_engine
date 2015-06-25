@@ -13,10 +13,6 @@ class Record
     attributes[:id].to_i
   end
 
-  def name
-    attributes[:name]
-  end
-
   def created_at
     Date.parse(attributes[:created_at])
   end
