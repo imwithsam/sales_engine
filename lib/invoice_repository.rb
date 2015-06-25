@@ -7,27 +7,45 @@ class InvoiceRepository < Repository
   end
 
   def find_by_customer_id(customer_id)
-    all.detect { |record| record.customer_id == customer_id }
+    @find_by_customer_id ||= Hash.new do |h, key|
+      h[key] = all.detect { |record| record.customer_id == key }
+    end
+    @find_by_customer_id[customer_id]
   end
 
   def find_by_merchant_id(merchant_id)
-    all.detect { |record| record.merchant_id == merchant_id }
+    @find_by_merchant_id ||= Hash.new do |h, key|
+      h[key] = all.detect { |record| record.merchant_id == key }
+    end
+    @find_by_merchant_id[merchant_id]
   end
 
   def find_by_status(status)
-    all.detect { |record| record.status == status }
+    @find_by_status ||= Hash.new do |h, key|
+      h[key] = all.detect { |record| record.status == key }
+    end
+    @find_by_status[status]
   end
 
   def find_all_by_customer_id(customer_id)
-    all.select { |record| record.customer_id == customer_id }
+    @find_all_by_customer_id ||= Hash.new do |h, key|
+      h[key] = all.select { |record| record.customer_id == key }
+    end
+    @find_all_by_customer_id[customer_id]
   end
 
   def find_all_by_merchant_id(merchant_id)
-    all.select { |record| record.merchant_id == merchant_id }
+    @find_all_by_merchant_id ||= Hash.new do |h, key|
+      h[key] = all.select { |record| record.merchant_id == key }
+    end
+    @find_all_by_merchant_id[merchant_id]
   end
 
   def find_all_by_status(status)
-    all.select { |record| record.status == status }
+    @find_all_by_status ||= Hash.new do |h, key|
+      h[key] = all.select { |record| record.status == key }
+    end
+    @find_all_by_status[status]
   end
 
   def create(attributes)
@@ -67,7 +85,6 @@ class InvoiceRepository < Repository
     items_by_item_id.map do |item_id, items|
       { item_id => items.count }
     end
-    # => [{ item_id: 4}, {item_id: 2}]
   end
 end
 

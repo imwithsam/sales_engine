@@ -7,35 +7,59 @@ class InvoiceItemRepository < Repository
   end
 
   def find_by_item_id(item_id)
-    all.detect { |record| record.item_id == item_id }
+    @find_by_item_id ||= Hash.new do |h, key|
+      h[key] = all.detect { |record| record.item_id == key }
+    end
+    @find_by_item_id[item_id]
   end
 
   def find_by_invoice_id(invoice_id)
-    all.detect { |record| record.invoice_id == invoice_id }
+    @find_by_invoice_id ||= Hash.new do |h, key|
+      h[key] = all.detect { |record| record.invoice_id == key }
+    end
+    @find_by_invoice_id[invoice_id]
   end
 
   def find_by_quantity(quantity)
-    all.detect { |record| record.quantity == quantity }
+    @find_by_quantity ||= Hash.new do |h, key|
+      h[key] = all.detect { |record| record.quantity == key }
+    end
+    @find_by_quantity[quantity]
   end
 
   def find_by_unit_price(unit_price)
-    all.detect { |record| record.unit_price == unit_price }
+    @find_by_unit_price ||= Hash.new do |h, key|
+      h[key] = all.detect { |record| record.unit_price == key }
+    end
+    @find_by_unit_price[unit_price]
   end
 
   def find_all_by_item_id(item_id)
-    all.select { |record| record.item_id == item_id }
+    @find_all_by_item_id ||= Hash.new do |h, key|
+      h[key] = all.select { |record| record.item_id == key }
+    end
+    @find_all_by_item_id[item_id]
   end
 
   def find_all_by_invoice_id(invoice_id)
-    all.select { |record| record.invoice_id == invoice_id }
+    @find_all_by_invoice_id ||= Hash.new do |h, key|
+      h[key] = all.select { |record| record.invoice_id == key }
+    end
+    @find_all_by_invoice_id[invoice_id]
   end
 
   def find_all_by_quantity(quantity)
-    all.select { |record| record.quantity == quantity }
+    @find_all_by_quantity ||= Hash.new do |h, key|
+      h[key] = all.select { |record| record.quantity == key }
+    end
+    @find_all_by_quantity[quantity]
   end
 
   def find_all_by_unit_price(unit_price)
-    all.select { |record| record.unit_price == unit_price }
+    @find_all_by_unit_price ||= Hash.new do |h, key|
+      h[key] = all.select { |record| record.unit_price == key }
+    end
+    @find_all_by_unit_price[unit_price]
   end
 
   def create(attributes)

@@ -5,8 +5,6 @@ require_relative 'item_repository'
 require_relative 'invoice_item_repository'
 require_relative 'transaction_repository'
 require_relative 'customer_repository'
-require_relative 'customer'
-require_relative 'invoice_item'
 
 class SalesEngine
   attr_accessor :data_directory,
@@ -44,4 +42,3 @@ end
 
 # engine = SalesEngine.new
 # engine.startup
-# require 'pry'; binding.pry

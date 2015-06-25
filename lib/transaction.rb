@@ -2,7 +2,8 @@ require_relative 'record'
 
 class Transaction < Record
   def invoice_id
-    attributes[:invoice_id].to_i
+    return @invoice_id if defined? @invoice_id
+    @invoice_id = attributes[:invoice_id].to_i
   end
 
   def credit_card_number
@@ -18,7 +19,8 @@ class Transaction < Record
   end
 
   def invoice
-    repository.engine.invoice_repository.find_by_id(invoice_id)
+    return @invoice if defined? @invoice
+    @invoice = repository.engine.invoice_repository.find_by_id(invoice_id)
   end
 
   def successful?
