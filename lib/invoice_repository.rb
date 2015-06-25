@@ -31,8 +31,6 @@ class InvoiceRepository < Repository
   end
 
   def create(attributes)
-    # customer: customer, merchant: merchant, status: "shipped",
-    # items: [item1, item2, item3]
     customer = attributes[:customer]
     merchant = attributes[:merchant]
     status = attributes[:status]
