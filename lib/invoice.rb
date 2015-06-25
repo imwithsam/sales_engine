@@ -56,7 +56,7 @@ class Invoice < Record
 
   def charge(attributes)
     cc_number = attributes[:credit_card_number]
-    cc_expiration = attributes[:credit_card_expiration]
+    cc_expiration = attributes[:credit_card_expiration_date]
     result = attributes[:result]
     transaction_attributes = {
         invoice_id: id,
