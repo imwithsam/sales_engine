@@ -91,17 +91,6 @@ class InvoiceTest < MiniTest::Test
   end
 
   def test_charge
-    # Call invoice.charge
-    # Inputs: cc_number, exp_date, result
-    # Basically create a Transaction row
-    # Need:
-    #  transaction_id
-    #  invoice_id
-    #  credit_card_number
-    #  credit_card_expiration_date
-    #  result
-    #  created_at
-    #  updated_at
     sales_engine = SalesEngine.new
     sales_engine.invoice_repository = InvoiceRepository.new(
         [{ id: 1 }],
