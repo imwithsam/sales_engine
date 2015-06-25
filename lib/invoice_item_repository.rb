@@ -37,6 +37,25 @@ class InvoiceItemRepository < Repository
   def find_all_by_unit_price(unit_price)
     all.select { |record| record.unit_price == unit_price }
   end
+
+  def create(attributes)
+    item = attributes[:item]
+    invoice_id = attributes[:invoice_id]
+    quantity = attributes[:quantity]
+    invoice_item_attributes = {
+        id: next_unused_id,
+        item_id: item.id,
+        invoice_id: invoice_id,
+        quantity: quantity,
+        unit_price: item.unit_price,
+        created_at: format_date_time(DateTime.now),
+        updated_at: format_date_time(DateTime.now)
+    }
+    invoice_item = InvoiceItem.new(invoice_item_attributes, self)
+    all << invoice_item
+
+    invoice_item
+  end
 end
 
 
