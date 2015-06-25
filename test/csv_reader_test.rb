@@ -35,9 +35,5 @@ class CsvReaderTest < Minitest::Test
                 {id: "3", name: "Willms and Sons", created_at: "2014-02-04 10:21:16 UTC", updated_at: "2014-02-05 18:01:32 UTC"}]
     assert_equal expected, CsvReader.read('./data/test_data/file_w_some_blank_lines.csv').map { |row| row.to_hash }
   end
-
-  # def test_if_file_contains_bad_data_returns_nil
-  #   assert_equal nil, CsvReader.read('./data/test_data/bad_csv_file_test.csv').map { |row| row.to_hash }
-  # end
 end
 

@@ -10,20 +10,24 @@ class Customer < Record
   end
 
   def invoices
-    repository.engine.invoice_repository.find_all_by_customer_id(id)
+    return @invoices if defined? @invoices
+    @invoices = repository.engine.invoice_repository.find_all_by_customer_id(id)
   end
 
   def paid_invoices
-    invoices.select(&:paid?)
+    return @paid_invoices if defined? @paid_invoices
+    @paid_invoices = invoices.select(&:paid?)
   end
 
   def transactions
-    invoices.flat_map do |invoice|
+    return @transactions if defined? @transactions
+    @transactions = invoices.flat_map do |invoice|
       repository.engine.transaction_repository.find_all_by_invoice_id(invoice.id)
     end
   end
 
   def favorite_merchant
+    return @favorite_merchant if defined? @favorite_merchant
     invoices_by_merchant_id = paid_invoices.group_by do |invoice|
       invoice.merchant_id
     end
@@ -32,7 +36,7 @@ class Customer < Record
       invoices.count
     end
 
-    repository.engine.merchant_repository.find_by_id(merchant[0])
+    @favorite_merchant = repository.engine.merchant_repository.find_by_id(merchant[0])
   end
 end
 
