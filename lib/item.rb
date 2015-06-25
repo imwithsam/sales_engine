@@ -22,17 +22,20 @@ class Item < Record
 
   def invoice_items
     return @invoice_items if defined? @invoice_items
-    @invoice_items = repository.engine.invoice_item_repository.find_all_by_item_id(id)
+    @invoice_items = repository.engine.invoice_item_repository
+                         .find_all_by_item_id(id)
   end
 
   def paid_invoice_items
     return @paid_invoice_items if defined? @paid_invoice_items
-    @paid_invoice_items = invoice_items.select { |invoice_item| invoice_item.invoice.paid? }
+    @paid_invoice_items = invoice_items
+      .select { |invoice_item| invoice_item.invoice.paid? }
   end
 
   def merchant
     return @merchant if defined? @merchant
-    @merchant = repository.engine.merchant_repository.find_by_id(merchant_id)
+    @merchant = repository.engine.merchant_repository
+                    .find_by_id(merchant_id)
   end
 
   def revenue

@@ -66,11 +66,14 @@ class Merchant < Record
     return @favorite_customer if defined? @favorite_customer
     grouped_invoices = paid_invoices.group_by(&:customer_id)
     favorite_customer_id = grouped_invoices.sort_by { |k, v| v.count }.last[0]
-    @favorite_customer = repository.engine.customer_repository.find_by_id(favorite_customer_id)
+    @favorite_customer = repository.engine.customer_repository
+                             .find_by_id(favorite_customer_id)
   end
 
   def customers_with_pending_invoices
-    return @customers_with_pending_invoices if defined? @customers_with_pending_invoices
+    if defined? @customers_with_pending_invoices
+      return @customers_with_pending_invoices
+    end
     customers = unpaid_invoices.map do |invoice|
       repository.engine.customer_repository.find_by_id(invoice.customer_id)
     end

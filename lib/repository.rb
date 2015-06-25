@@ -19,7 +19,7 @@ class Repository
     # Do NOT memoize
     all.sample
   end
-  
+
   def find_by_id(id)
     @find_by_id ||= Hash.new do |h, key|
       h[key] = all.detect { |record| record.id == key }
