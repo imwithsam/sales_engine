@@ -22,7 +22,8 @@ class Invoice < Record
 
   def invoice_items
     return @invoice_items if defined? @invoice_items
-    @invoice_items = repository.engine.invoice_item_repository.find_all_by_invoice_id(id)
+    @invoice_items = repository.engine.invoice_item_repository
+                         .find_all_by_invoice_id(id)
   end
 
   def items
