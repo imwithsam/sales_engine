@@ -37,5 +37,25 @@ class TransactionRepository < Repository
   def find_all_by_result(result)
     all.select { |record| record.result == result }
   end
+
+  def create(attributes)
+    invoice_id = attributes[:invoice_id]
+    cc_number = attributes[:credit_card_number]
+    cc_expiration = attributes[:credit_card_expiration_date]
+    result = attributes[:result]
+    transaction_attributes = {
+        id: next_unused_id,
+        invoice_id: invoice_id,
+        credit_card_number: cc_number,
+        credit_card_expiration_date: cc_expiration,
+        result: result,
+        created_at: format_date_time(DateTime.now),
+        updated_at: format_date_time(DateTime.now)
+    }
+    transaction = Transaction.new(transaction_attributes, self)
+    all << transaction
+
+    transaction
+  end
 end
 

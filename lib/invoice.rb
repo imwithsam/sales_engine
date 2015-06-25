@@ -44,5 +44,18 @@ class Invoice < Record
       subtotal + (item.quantity * item.unit_price)
     end
   end
+
+  def charge(attributes)
+    cc_number = attributes[:credit_card_number]
+    cc_expiration = attributes[:credit_card_expiration]
+    result = attributes[:result]
+    transaction_attributes = {
+        invoice_id: id,
+        credit_card_number: cc_number,
+        credit_card_expiration_date: cc_expiration,
+        result: result
+    }
+    repository.engine.transaction_repository.create(transaction_attributes)
+  end
 end
 
