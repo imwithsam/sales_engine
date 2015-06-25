@@ -90,12 +90,48 @@ class InvoiceTest < MiniTest::Test
     assert_equal 20, invoice.merchant.id
   end
 
-  def test_successful_transaction
-    skip
-    # TODO: Finish test_successful_transaction
-    # sales_engine = SalesEngine.new
-    # invoice_repo = InvoiceRepository.new(
-    #     [{ id: 1, merchant_id: 10 }],
-    #     sales_engine)
+  def test_charge
+    # Call invoice.charge
+    # Inputs: cc_number, exp_date, result
+    # Basically create a Transaction row
+    # Need:
+    #  transaction_id
+    #  invoice_id
+    #  credit_card_number
+    #  credit_card_expiration_date
+    #  result
+    #  created_at
+    #  updated_at
+    sales_engine = SalesEngine.new
+    sales_engine.invoice_repository = InvoiceRepository.new(
+        [{ id: 1 }],
+        sales_engine)
+    sales_engine.transaction_repository = TransactionRepository.new(
+        [{ id: 10 }],
+        sales_engine
+    )
+    invoice = sales_engine.invoice_repository
+              .find_by_id(1)
+    attributes = {
+      invoice_id: invoice.id,
+      credit_card_number: "1234123412341234",
+      credit_card_expiration_date: "12/17",
+      result: "success"
+    }
+    invoice.charge(attributes)
+    transaction = sales_engine.transaction_repository.find_by_id(11)
+
+    assert_equal invoice.id,
+      transaction.invoice_id
+    assert_equal "1234123412341234",
+      transaction.credit_card_number
+    assert_equal "12/17",
+      transaction.credit_card_expiration_date
+    assert_equal "success",
+      transaction.result
+    assert_equal Date.today,
+      transaction.created_at
+    assert_equal Date.today,
+      transaction.updated_at
   end
 end
